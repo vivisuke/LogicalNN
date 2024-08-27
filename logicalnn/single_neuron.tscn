@@ -50,6 +50,28 @@ theme_override_colors/font_color = Color(0, 0, 0, 1)
 text = "actv-func: tanh(), -1 for false"
 horizontal_alignment = 2
 
+[node name="OpeButton" type="OptionButton" parent="."]
+offset_left = 160.0
+offset_top = 80.0
+offset_right = 192.0
+offset_bottom = 100.0
+theme_override_colors/font_color = Color(1, 1, 1, 1)
+selected = 0
+item_count = 3
+popup/item_0/text = "AND"
+popup/item_1/text = "OR"
+popup/item_1/id = 1
+popup/item_2/text = "NAND"
+popup/item_2/id = 2
+
+[node name="Label" type="Label" parent="OpeButton"]
+offset_left = -132.0
+offset_right = -6.0
+offset_bottom = 23.0
+theme_override_colors/font_color = Color(0, 0, 0, 1)
+text = "teacher func op:"
+horizontal_alignment = 2
+
 [node name="GraphRect" type="ColorRect" parent="."]
 offset_left = 20.0
 offset_top = 160.0
@@ -131,5 +153,6 @@ theme_override_colors/font_color = Color(0, 0, 0, 1)
 text = "train"
 horizontal_alignment = 1
 
+[connection signal="item_selected" from="OpeButton" to="." method="_on_ope_button_item_selected"]
 [connection signal="pressed" from="HBC/ResetButton" to="." method="_on_reset_button_pressed"]
 [connection signal="pressed" from="HBC/TrainButton" to="." method="_on_train_button_pressed"]

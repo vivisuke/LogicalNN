@@ -15,6 +15,10 @@ class Neuron:
 		init_weight(deviation)		# 指定標準偏差で乱数生成
 	func init_weight(deviation:float):
 		if false:
+			vec_weight[0] = 0.5
+			vec_weight[1] = 0.5
+			vec_weight[2] = 0.5
+		elif false:
 			for i in range(n_input+1):
 				vec_weight[i] = randfn(0.0, deviation)
 		else:
@@ -80,8 +84,8 @@ const boolean_pos_tanh = [[-1, -1], [1, -1], [-1, 1], [1, 1]]
 var vec_weight_init			# 重み初期値
 var n_iteration = 0			# 学習回数
 var ope = OP_AND
-var actv_func = AF_SIGMOID
-var false_0 = true			# false for false: -1.0
+var actv_func = AF_TANH
+var false_0 = false			# false for false: -1.0
 var ALPHA = 0.1				# 学習率
 var norm = 0.1				# 重み初期化時標準偏差
 var neuron
@@ -128,6 +132,7 @@ func forward_and_backward():
 		var d = y - t
 		sumLoss += d * d / 2.0
 		#
+		#print(inp, " ", y, " ", t)
 		neuron.backward(inp, d)
 		for k in range(grad.size()):
 			grad[k] += neuron.upgrad[k]
@@ -158,4 +163,13 @@ func _on_reset_button_pressed():
 
 
 func _on_train_button_pressed():
+	#do_train()
+	pass # Replace with function body.
+
+
+func _on_ope_button_item_selected(index):
+	ope = index
+	$GraphRect.ope = ope
+	$GraphRect.queue_redraw()
+	update_view()
 	pass # Replace with function body.
