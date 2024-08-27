@@ -29,7 +29,7 @@ offset_right = 500.0
 offset_bottom = 48.0
 theme_override_colors/font_color = Color(0, 0, 0, 1)
 theme_override_font_sizes/font_size = 30
-text = "単一ニューロン"
+text = "２入力単一ニューロン"
 horizontal_alignment = 1
 vertical_alignment = 1
 
@@ -64,6 +64,23 @@ offset_right = 175.0
 offset_bottom = 653.0
 theme_override_colors/font_color = Color(0, 0, 0, 1)
 text = "[b, w1, w2] = [0, 0, 0]"
+
+[node name="LossLabel" type="Label" parent="."]
+offset_left = 316.0
+offset_top = 630.0
+offset_right = 480.0
+offset_bottom = 653.0
+theme_override_colors/font_color = Color(0, 0, 0, 1)
+text = "Loss = 0"
+horizontal_alignment = 2
+
+[node name="GradLabel" type="Label" parent="."]
+offset_left = 20.0
+offset_top = 660.0
+offset_right = 280.0
+offset_bottom = 683.0
+theme_override_colors/font_color = Color(0, 0, 0, 1)
+text = "∂L/∂[b, w1, w2] = [%.3f, %.3f, %.3f]"
 
 [node name="HBC" type="HBoxContainer" parent="."]
 offset_top = 820.0

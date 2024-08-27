@@ -74,6 +74,9 @@ enum {
 	LU_MINI_BATCH = 0, LU_ONLINE, LU_RANDOM_8,
 }
 
+const boolean_pos = [[0, 0], [1, 0], [0, 1], [1, 1]]
+const boolean_pos_tanh = [[-1, -1], [1, -1], [-1, 1], [1, 1]]
+
 var vec_weight_init			# 重み初期値
 var n_iteration = 0			# 学習回数
 var ope = OP_AND
@@ -83,6 +86,19 @@ var ALPHA = 0.1				# 学習率
 var norm = 0.1				# 重み初期化時標準偏差
 var neuron
 var grad
+
+func teacher_value(inp:Array):
+	if ope == OP_AND: return 1.0 if inp[0] != 0 && inp[1] != 0.0 else 0.0		# AND
+	elif ope == OP_OR: return 1.0 if inp[0] != 0 || inp[1] != 0.0 else 0.0		# OR
+	elif ope == OP_NAND: return 0.0 if inp[0] != 0 && inp[1] != 0.0 else 1.0	# NAND
+	elif ope == OP_GT: return 1.0 if inp[0] > inp[1] else 0.0					# x1 > x2
+	elif ope == OP_XOR: return 1.0 if inp[0] != inp[1] else 0.0					# XOR
+	return 0.0
+func teacher_value_ex(inp:Array):
+	var t = teacher_value(inp)
+	if actv_func != AF_SIGMOID && t == 0.0: t = -1.0
+	#if !false_0 && t == 0.0: t = -1.0
+	return t
 
 func _ready():
 	neuron = Neuron.new(2, AF_TANH, norm)
@@ -95,8 +111,30 @@ func update_view():
 	$WeightLabel.text = "[b, w1, w2] = [%.3f, %.3f, %.3f]" % neuron.vec_weight
 	$GraphRect.vv_weight = [neuron.vec_weight]
 	$GraphRect.queue_redraw()
-	##forward_and_backward()
+	forward_and_backward()
 	##draw_loss_wt_graph()
+func forward_and_backward():
+	grad = [0.0, 0.0, 0.0]
+	var sumLoss = 0.0
+	var n_data = 0		# ミニバッチデータ数カウンタ
+	for i in range(boolean_pos.size()):
+		n_data += 1
+		var t = teacher_value_ex(boolean_pos[i])	# 教師値
+		var inp = boolean_pos[i] if false_0 else boolean_pos_tanh[i]
+		neuron.forward(inp)
+		var y = neuron.y
+		if actv_func == AF_RELU:
+			y = 1.0 if y > 0.0 else -1.0
+		var d = y - t
+		sumLoss += d * d / 2.0
+		#
+		neuron.backward(inp, d)
+		for k in range(grad.size()):
+			grad[k] += neuron.upgrad[k]
+	var loss = sumLoss / n_data
+	$LossLabel.text = "Loss = %.3f" % loss
+	$GradLabel.text = "∂L/∂[b, w1, w2] = [%.3f, %.3f, %.3f]" % grad
+	pass
 
 
 # Called every frame. 'delta' is the elapsed time since the previous frame.
