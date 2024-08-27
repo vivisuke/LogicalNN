@@ -16,12 +16,14 @@ class Neuron:
 	func init_weight(deviation:float):
 		if false:
 			vec_weight[0] = 0.5
-			vec_weight[1] = 0.5
+			vec_weight[1] = -0.5
 			vec_weight[2] = 0.5
-		elif false:
+		elif true:
+			# xavier 初期化
 			for i in range(n_input+1):
-				vec_weight[i] = randfn(0.0, deviation)
+				vec_weight[i] = randfn(0.0, 1.0/sqrt(n_input+1))
 		else:
+			# tsuda 初期化
 			if n_input == 2:
 				vec_weight[0] = sin(randf_range(0.0, 2*PI))
 				var th = randf_range(0.0, 2*PI)

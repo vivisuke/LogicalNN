@@ -65,6 +65,7 @@ popup/item_2/text = "NAND"
 popup/item_2/id = 2
 
 [node name="Label" type="Label" parent="OpeButton"]
+layout_mode = 0
 offset_left = -132.0
 offset_right = -6.0
 offset_bottom = 23.0
