@@ -86,3 +86,11 @@ offset_bottom = 63.0
 theme_override_colors/font_color = Color(0, 0, 0, 1)
 text = "train"
 horizontal_alignment = 1
+
+[node name="ItrLabel" type="Label" parent="."]
+offset_left = 20.0
+offset_top = 55.0
+offset_right = 105.0
+offset_bottom = 78.0
+theme_override_colors/font_color = Color(0, 0, 0, 1)
+text = "iteration: 0"
