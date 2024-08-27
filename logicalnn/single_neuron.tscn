@@ -1,7 +1,13 @@
-[gd_scene load_steps=3 format=3 uid="uid://ciuebslqxe1qr"]
+[gd_scene load_steps=9 format=3 uid="uid://ciuebslqxe1qr"]
 
 [ext_resource type="Script" path="res://scripts/title_bar.gd" id="1_pha1f"]
 [ext_resource type="Script" path="res://scripts/graph_rect.gd" id="2_wux4p"]
+[ext_resource type="Texture2D" uid="uid://cw12ybwxr01c6" path="res://images/refresh_black.png" id="3_3rbd4"]
+[ext_resource type="Texture2D" uid="uid://de8wxwb51hp20" path="res://images/refresh_gray.png" id="4_xhc82"]
+[ext_resource type="Texture2D" uid="uid://bmecfrrre8ota" path="res://images/first_page_black.png" id="5_jaa02"]
+[ext_resource type="Texture2D" uid="uid://ce4djqudjcgih" path="res://images/first_page_gray.png" id="6_umyaq"]
+[ext_resource type="Texture2D" uid="uid://blf0d7a1kv51j" path="res://images/play_arrow_black.png" id="7_5pti6"]
+[ext_resource type="Texture2D" uid="uid://hgvvxc6obbow" path="res://images/play_arrow_gray.png" id="8_v0v8v"]
 
 [node name="SingleNeuron" type="Node2D"]
 
@@ -31,3 +37,52 @@ offset_top = 160.0
 offset_right = 480.0
 offset_bottom = 620.0
 script = ExtResource("2_wux4p")
+
+[node name="HBC" type="HBoxContainer" parent="."]
+offset_top = 820.0
+offset_right = 500.0
+offset_bottom = 870.0
+theme_override_constants/separation = 150
+alignment = 1
+
+[node name="ResetButton" type="TextureButton" parent="HBC"]
+layout_mode = 2
+texture_normal = ExtResource("3_3rbd4")
+texture_pressed = ExtResource("4_xhc82")
+
+[node name="Label" type="Label" parent="HBC/ResetButton"]
+layout_mode = 0
+offset_top = 40.0
+offset_right = 48.0
+offset_bottom = 63.0
+theme_override_colors/font_color = Color(0, 0, 0, 1)
+text = "reset"
+horizontal_alignment = 1
+
+[node name="RewindButton" type="TextureButton" parent="HBC"]
+layout_mode = 2
+texture_normal = ExtResource("5_jaa02")
+texture_pressed = ExtResource("6_umyaq")
+
+[node name="Label" type="Label" parent="HBC/RewindButton"]
+layout_mode = 0
+offset_top = 40.0
+offset_right = 48.0
+offset_bottom = 63.0
+theme_override_colors/font_color = Color(0, 0, 0, 1)
+text = "rewind"
+horizontal_alignment = 1
+
+[node name="ResetButton3" type="TextureButton" parent="HBC"]
+layout_mode = 2
+texture_normal = ExtResource("7_5pti6")
+texture_pressed = ExtResource("8_v0v8v")
+
+[node name="Label" type="Label" parent="HBC/ResetButton3"]
+layout_mode = 0
+offset_top = 40.0
+offset_right = 48.0
+offset_bottom = 63.0
+theme_override_colors/font_color = Color(0, 0, 0, 1)
+text = "train"
+horizontal_alignment = 1
