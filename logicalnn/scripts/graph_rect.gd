@@ -9,9 +9,10 @@ enum {
 	DSP_XAVIER,
 	DSP_HE,
 	#
-	OP_AND = 0, OP_OR, OP_NAND,
+	OP_AND = 0, OP_OR, OP_NAND, OP_NOR,
 	OP_GT,		# x1 > x2
-	OP_XOR,
+	OP_LT,		# x1 < x2
+	OP_XOR, OP_NXOR,
 	#
 	AF_SIGMOID = 0, AF_TANH, AF_RELU,		# 活性化関数種別
 }
@@ -127,7 +128,9 @@ func plot_boolean_sub(pos:Vector2):
 	if ope == OP_AND: b = 1.0 if pos.x != 0 && pos.y != 0.0 else 0.0		# AND
 	elif ope == OP_OR: b = 1.0 if pos.x != 0 || pos.y != 0.0 else 0.0		# OR
 	elif ope == OP_NAND: b = 0.0 if pos.x != 0 && pos.y != 0.0 else 1.0		# NAND
+	elif ope == OP_NOR: b = 0.0 if pos.x != 0 || pos.y != 0.0 else 1.0		# NOR
 	elif ope == OP_GT: b = 1.0 if pos.x > pos.y else 0.0					# x1 > x2
+	elif ope == OP_LT: b = 1.0 if pos.x < pos.y else 0.0					# x1 < x2
 	elif ope == OP_XOR: b = 1.0 if pos.x != pos.y else 0.0					# XOR
 	#var col = Color.BLACK if b else Color.DARK_GRAY
 	#draw_circle(posToScreenPos(pos), 4.0, col)

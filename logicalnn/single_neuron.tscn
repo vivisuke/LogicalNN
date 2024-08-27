@@ -57,12 +57,18 @@ offset_right = 192.0
 offset_bottom = 100.0
 theme_override_colors/font_color = Color(1, 1, 1, 1)
 selected = 0
-item_count = 3
+item_count = 6
 popup/item_0/text = "AND"
 popup/item_1/text = "OR"
 popup/item_1/id = 1
 popup/item_2/text = "NAND"
 popup/item_2/id = 2
+popup/item_3/text = "NOR"
+popup/item_3/id = 3
+popup/item_4/text = "X1>X2"
+popup/item_4/id = 4
+popup/item_5/text = "X1<X2"
+popup/item_5/id = 5
 
 [node name="Label" type="Label" parent="OpeButton"]
 layout_mode = 0

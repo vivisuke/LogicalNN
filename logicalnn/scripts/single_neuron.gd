@@ -73,9 +73,10 @@ class Neuron:
 	var upgrad				# 上流勾配
 #
 enum {
-	OP_AND = 0, OP_OR, OP_NAND,
+	OP_AND = 0, OP_OR, OP_NAND, OP_NOR,
 	OP_GT,		# x1 > x2
-	OP_XOR,
+	OP_LT,		# x1 < x2
+	OP_XOR, OP_NXOR,
 	#
 	LU_MINI_BATCH = 0, LU_ONLINE, LU_RANDOM_8,
 }
@@ -97,7 +98,9 @@ func teacher_value(inp:Array):
 	if ope == OP_AND: return 1.0 if inp[0] != 0 && inp[1] != 0.0 else 0.0		# AND
 	elif ope == OP_OR: return 1.0 if inp[0] != 0 || inp[1] != 0.0 else 0.0		# OR
 	elif ope == OP_NAND: return 0.0 if inp[0] != 0 && inp[1] != 0.0 else 1.0	# NAND
+	elif ope == OP_NOR: return 0.0 if inp[0] != 0 || inp[1] != 0.0 else 1.0		# NOR
 	elif ope == OP_GT: return 1.0 if inp[0] > inp[1] else 0.0					# x1 > x2
+	elif ope == OP_LT: return 1.0 if inp[0] < inp[1] else 0.0					# x1 > x2
 	elif ope == OP_XOR: return 1.0 if inp[0] != inp[1] else 0.0					# XOR
 	return 0.0
 func teacher_value_ex(inp:Array):
