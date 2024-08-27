@@ -137,8 +137,15 @@ func forward_and_backward():
 	pass
 
 
-# Called every frame. 'delta' is the elapsed time since the previous frame.
+func do_train():
+	n_iteration += 1
+	for i in range(neuron.vec_weight.size()):
+		neuron.vec_weight[i] -= grad[i] * ALPHA
+	update_view()
+
 func _process(delta):
+	if $HBC/TrainButton.button_pressed:
+		do_train()
 	pass
 
 
@@ -147,4 +154,8 @@ func _on_reset_button_pressed():
 	neuron.init_weight(norm)
 	vec_weight_init = neuron.vec_weight.duplicate()
 	update_view()
+	pass # Replace with function body.
+
+
+func _on_train_button_pressed():
 	pass # Replace with function body.

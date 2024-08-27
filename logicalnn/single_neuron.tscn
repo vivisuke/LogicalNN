@@ -117,12 +117,12 @@ theme_override_colors/font_color = Color(0, 0, 0, 1)
 text = "rewind"
 horizontal_alignment = 1
 
-[node name="ResetButton3" type="TextureButton" parent="HBC"]
+[node name="TrainButton" type="TextureButton" parent="HBC"]
 layout_mode = 2
 texture_normal = ExtResource("7_5pti6")
 texture_pressed = ExtResource("8_v0v8v")
 
-[node name="Label" type="Label" parent="HBC/ResetButton3"]
+[node name="Label" type="Label" parent="HBC/TrainButton"]
 layout_mode = 0
 offset_top = 40.0
 offset_right = 48.0
@@ -132,3 +132,4 @@ text = "train"
 horizontal_alignment = 1
 
 [connection signal="pressed" from="HBC/ResetButton" to="." method="_on_reset_button_pressed"]
+[connection signal="pressed" from="HBC/TrainButton" to="." method="_on_train_button_pressed"]
