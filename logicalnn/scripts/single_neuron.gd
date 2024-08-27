@@ -76,6 +76,7 @@ enum {
 	OP_AND = 0, OP_OR, OP_NAND, OP_NOR,
 	OP_GT,		# x1 > x2
 	OP_LT,		# x1 < x2
+	OP_X1_GT_0, OP_X2_GT_0, 	# x1 > 0, X2 > 0
 	OP_XOR, OP_NXOR,
 	#
 	LU_MINI_BATCH = 0, LU_ONLINE, LU_RANDOM_8,
@@ -101,7 +102,10 @@ func teacher_value(inp:Array):
 	elif ope == OP_NOR: return 0.0 if inp[0] != 0 || inp[1] != 0.0 else 1.0		# NOR
 	elif ope == OP_GT: return 1.0 if inp[0] > inp[1] else 0.0					# x1 > x2
 	elif ope == OP_LT: return 1.0 if inp[0] < inp[1] else 0.0					# x1 > x2
+	elif ope == OP_X1_GT_0: return 1.0 if inp[0] > 0 else 0.0					# x1 > 0
+	elif ope == OP_X2_GT_0: return 1.0 if inp[1] > 0 else 0.0					# x2 > 0
 	elif ope == OP_XOR: return 1.0 if inp[0] != inp[1] else 0.0					# XOR
+	elif ope == OP_NXOR: return 0.0 if inp[0] != inp[1] else 1.0				# NXOR
 	return 0.0
 func teacher_value_ex(inp:Array):
 	var t = teacher_value(inp)
