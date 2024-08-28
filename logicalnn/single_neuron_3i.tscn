@@ -1,6 +1,13 @@
-[gd_scene load_steps=2 format=3 uid="uid://bx65qt5e4ok2o"]
+[gd_scene load_steps=9 format=3 uid="uid://bx65qt5e4ok2o"]
 
 [ext_resource type="Script" path="res://scripts/title_bar.gd" id="1_3yoiq"]
+[ext_resource type="Script" path="res://scripts/graph_rect_3i.gd" id="2_u8q7f"]
+[ext_resource type="Texture2D" uid="uid://cw12ybwxr01c6" path="res://images/refresh_black.png" id="3_bjk87"]
+[ext_resource type="Texture2D" uid="uid://de8wxwb51hp20" path="res://images/refresh_gray.png" id="4_1yygf"]
+[ext_resource type="Texture2D" uid="uid://bmecfrrre8ota" path="res://images/first_page_black.png" id="5_7cs7x"]
+[ext_resource type="Texture2D" uid="uid://ce4djqudjcgih" path="res://images/first_page_gray.png" id="6_e2gnh"]
+[ext_resource type="Texture2D" uid="uid://blf0d7a1kv51j" path="res://images/play_arrow_black.png" id="7_eh8fc"]
+[ext_resource type="Texture2D" uid="uid://hgvvxc6obbow" path="res://images/play_arrow_gray.png" id="8_wuxiw"]
 
 [node name="SingleNeuron3I" type="Node2D"]
 
@@ -23,3 +30,59 @@ theme_override_font_sizes/font_size = 30
 text = "３入力単一ニューロン"
 horizontal_alignment = 1
 vertical_alignment = 1
+
+[node name="GraphRect3i" type="ColorRect" parent="."]
+offset_left = 20.0
+offset_top = 160.0
+offset_right = 480.0
+offset_bottom = 620.0
+script = ExtResource("2_u8q7f")
+
+[node name="HBC" type="HBoxContainer" parent="."]
+offset_top = 820.0
+offset_right = 500.0
+offset_bottom = 870.0
+theme_override_constants/separation = 150
+alignment = 1
+
+[node name="ResetButton" type="TextureButton" parent="HBC"]
+layout_mode = 2
+texture_normal = ExtResource("3_bjk87")
+texture_pressed = ExtResource("4_1yygf")
+
+[node name="Label" type="Label" parent="HBC/ResetButton"]
+layout_mode = 0
+offset_top = 40.0
+offset_right = 48.0
+offset_bottom = 63.0
+theme_override_colors/font_color = Color(0, 0, 0, 1)
+text = "reset"
+horizontal_alignment = 1
+
+[node name="RewindButton" type="TextureButton" parent="HBC"]
+layout_mode = 2
+texture_normal = ExtResource("5_7cs7x")
+texture_pressed = ExtResource("6_e2gnh")
+
+[node name="Label" type="Label" parent="HBC/RewindButton"]
+layout_mode = 0
+offset_top = 40.0
+offset_right = 48.0
+offset_bottom = 63.0
+theme_override_colors/font_color = Color(0, 0, 0, 1)
+text = "rewind"
+horizontal_alignment = 1
+
+[node name="TrainButton" type="TextureButton" parent="HBC"]
+layout_mode = 2
+texture_normal = ExtResource("7_eh8fc")
+texture_pressed = ExtResource("8_wuxiw")
+
+[node name="Label" type="Label" parent="HBC/TrainButton"]
+layout_mode = 0
+offset_top = 40.0
+offset_right = 48.0
+offset_bottom = 63.0
+theme_override_colors/font_color = Color(0, 0, 0, 1)
+text = "train"
+horizontal_alignment = 1
