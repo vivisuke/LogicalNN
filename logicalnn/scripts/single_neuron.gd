@@ -182,3 +182,10 @@ func _on_ope_button_item_selected(index):
 	$GraphRect.queue_redraw()
 	update_view()
 	pass # Replace with function body.
+
+
+func _on_rewind_button_pressed():
+	n_iteration = 0
+	neuron.vec_weight = vec_weight_init.duplicate()
+	update_view()
+	pass # Replace with function body.
