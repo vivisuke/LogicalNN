@@ -96,8 +96,8 @@ func plot_boolean_sub(x1, x2, x3):
 	elif ope == g.OP_XOR: b = 1.0 if x1 != x2 else 0.0					# XOR
 	elif ope == g.OP_NXOR: b = 0.0 if x1 != x2 else 1.0					# NXOR
 	var pos = trans_3d_2d(x1, x2, x3);
-	draw_circle(pos, DOT_RADIUS, TRUE_COL if b > 0 else FALSE_COL)
-	draw_arc(pos, DOT_RADIUS, 0.0, 2*PI, 128, Color.BLACK, 0.5, true)
+	draw_circle(pos, DOT_RADIUS*1.5, TRUE_COL if b > 0 else FALSE_COL)
+	draw_arc(pos, DOT_RADIUS*1.5, 0.0, 2*PI, 128, Color.BLACK, 0.5, true)
 func plot_boolean():
 	plot_boolean_sub(-1, -1, -1)
 	plot_boolean_sub( 1, -1, -1)
@@ -120,6 +120,11 @@ func _draw():
 	draw_line(trans_3d_2d(4, 0, 0), trans_3d_2d(-4, 0, 0), Color.GRAY)		# x1 軸
 	draw_line(trans_3d_2d(0, 4, 0), trans_3d_2d(0, -4, 0), Color.GRAY)		# x2 軸
 	draw_line(trans_3d_2d(0, 0, 4), trans_3d_2d(0, 0, -4), Color.GRAY)		# x3 軸
+	# 座標軸上の整数点に黒丸描画
+	for x in range(-2, 3):
+		draw_circle(trans_3d_2d(x, 0, 0), DOT_RADIUS/2, Color.BLACK)
+		draw_circle(trans_3d_2d(0, x, 0), DOT_RADIUS/2, Color.BLACK)
+		draw_circle(trans_3d_2d(0, 0, x), DOT_RADIUS/2, Color.BLACK)
 	#
 	#draw_circle(trans_3d_2d(0, 0, 0), DOT_RADIUS, Color.BLACK)		# 原点
 	#draw_circle(trans_3d_2d(2, 0, 0), DOT_RADIUS, Color.BLACK)		# x1 = 2.0
