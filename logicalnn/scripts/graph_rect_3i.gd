@@ -19,10 +19,15 @@ const LT_OFST = 12
 var ORG_X = SPACE_LEFT + GRAPH_WD/2
 var ORG_Y = SPACE_TOP + GRAPH_HT/2
 const DOT_RADIUS = 4.0
+const PLANE_DOT_RADIUS = 2.0
 var angle_3d = PI/6.0		# 30°
 #var angle_3d = PI/4.0		# 45°
 var angle30 = PI / 6.0
 var scale_3d2d = 50.0
+var x1_label
+var x2_label
+var x3_label
+var vec_weight = [-1.0, 1.0, 1.0, 1.0]			# [b, w1, w2, w3] 重みベクター
 
 func trans_3d_2d(x1:float, x2:float, x3:float) -> Vector2:
 	if true:
@@ -31,8 +36,9 @@ func trans_3d_2d(x1:float, x2:float, x3:float) -> Vector2:
 		var angle2 = angle_3d + PI/2.0
 		x -= x2 * cos(angle2)
 		y += x2 * sin(angle2)
+		y /= 2
 		y -= x3
-		return Vector2(x*scale_3d2d+ORG_X, y*scale_3d2d/2.0+ORG_Y)
+		return Vector2(x*scale_3d2d+ORG_X, y*scale_3d2d+ORG_Y)
 	else:
 		var cos30 = cos(angle30)
 		var sin30 = sin(angle30)
@@ -57,15 +63,16 @@ func add_axis_label(pos, txt):
 
 func _ready():
 	# "x1", "x2", "x3" 表示
-	add_axis_label(Vector2(LT+BTM_OFST, ORG_Y+GRAPH_HT/4), "x1")
-	add_axis_label(Vector2(RT-BTM_OFST*2, ORG_Y+GRAPH_HT/4), "x2")
-	add_axis_label(Vector2(ORG_X+4, TOP), "x3")
+	x1_label = add_axis_label(Vector2(LT+BTM_OFST, ORG_Y+GRAPH_HT/4), "x1")
+	x2_label = add_axis_label(Vector2(RT-BTM_OFST*2, ORG_Y+GRAPH_HT/4), "x2")
+	x3_label = add_axis_label(Vector2(ORG_X+4, TOP), "x3")
 	pass # Replace with function body.
 
 
 # Called every frame. 'delta' is the elapsed time since the previous frame.
 func _process(delta):
-	angle_3d += PI/360		# 1/2°
+	angle_3d += PI/720		# 1/4°
+	#angle_3d += PI/360		# 1/2°
 	#angle_3d += PI/180		# 1°
 	if angle_3d >= 2*PI: angle_3d -= 2*PI
 	queue_redraw()
@@ -81,14 +88,16 @@ func _draw():
 	style_box.shadow_color = Color.GRAY
 	draw_style_box(style_box, Rect2(Vector2(0, 0), self.size))      # style_box に設定した矩形を描画
 	# 座標軸描画
-	draw_line(trans_3d_2d(6, 0, 0), trans_3d_2d(-6, 0, 0), Color.GRAY)		# x1 軸
-	draw_line(trans_3d_2d(0, 6, 0), trans_3d_2d(0, -6, 0), Color.GRAY)		# x2 軸
-	draw_line(trans_3d_2d(0, 0, 6), trans_3d_2d(0, 0, -6), Color.GRAY)		# x3 軸
+	draw_line(trans_3d_2d(4, 0, 0), trans_3d_2d(-4, 0, 0), Color.GRAY)		# x1 軸
+	draw_line(trans_3d_2d(0, 4, 0), trans_3d_2d(0, -4, 0), Color.GRAY)		# x2 軸
+	draw_line(trans_3d_2d(0, 0, 4), trans_3d_2d(0, 0, -4), Color.GRAY)		# x3 軸
 	#
 	#draw_circle(trans_3d_2d(0, 0, 0), DOT_RADIUS, Color.BLACK)		# 原点
 	#draw_circle(trans_3d_2d(2, 0, 0), DOT_RADIUS, Color.BLACK)		# x1 = 2.0
 	#draw_circle(trans_3d_2d(0, 2, 0), DOT_RADIUS, Color.BLACK)		# x2 = 2.0
 	#draw_circle(trans_3d_2d(0, 0, 2), DOT_RADIUS, Color.BLACK)
+	#
+	draw_div_plane()		# 分割面描画
 	if true:
 		# 4x4x4 立方体頂点
 		draw_circle(trans_3d_2d( 2,  2,  2), DOT_RADIUS, Color.BLACK)
@@ -113,3 +122,17 @@ func _draw():
 		draw_dashed_line(trans_3d_2d(-2,  2,  2), trans_3d_2d( -2,  2, -2), Color.BLACK, 2.0)
 		draw_dashed_line(trans_3d_2d(-2, -2,  2), trans_3d_2d( -2, -2, -2), Color.BLACK, 2.0)
 		draw_dashed_line(trans_3d_2d( 2, -2,  2), trans_3d_2d(  2, -2, -2), Color.BLACK, 2.0)
+	# x1, x2 ラベル
+		x1_label.position = trans_3d_2d(4, 0, 0)
+		x2_label.position = trans_3d_2d(0, 4, 0)
+
+func draw_div_plane():
+	#var x3 = 2.0
+	for x30 in range(-20, 20, 2):
+		var x3 = x30 / 10.0
+		for x10 in range(-20, 20, 2):
+			var x1 = x10 / 10.0
+			var x2 = 1 - x1 - x3;
+			#print(x1, x2, x3)
+			draw_circle(trans_3d_2d( x1,  x2,  x3), PLANE_DOT_RADIUS, Color.BLUE)
+			
