@@ -2,6 +2,19 @@ extends Node2D
 
 var g = Global
 
+enum {
+	OP_AND = 0, OP_OR, OP_NAND, OP_NOR,
+	OP_GT,		# x1 > x2
+	OP_LT,		# x1 < x2
+	OP_X1_GT_0, OP_X2_GT_0, 	# x1 > 0, X2 > 0
+	OP_XOR, OP_NXOR,
+	#
+	LU_MINI_BATCH = 0, LU_ONLINE, LU_RANDOM_8,
+}
+
+const boolean_pos = [[0, 0, 0], [1, 0, 0], [0, 1, 0], [1, 1, 0], [0, 0, 1], [1, 0, 1], [0, 1, 1], [1, 1, 1]]
+const boolean_pos_tanh = [[-1, -1, -1], [1, -1, -1], [-1, 1, -1], [1, 1, -1], [-1, -1, 1], [1, -1, 1], [-1, 1, 1], [1, 1, 1]]
+
 var vec_weight_init			# 重み初期値
 var n_iteration = 0			# 学習回数
 var ope = OP_AND
@@ -13,7 +26,24 @@ var neuron
 var grad
 
 
-# Called when the node enters the scene tree for the first time.
+func teacher_value(inp:Array):
+	if ope == OP_AND: return 1.0 if inp[0] != 0 && inp[1] != 0.0 && inp[2] != 0.0 else 0.0		# AND
+	elif ope == OP_OR: return 1.0 if inp[0] != 0 || inp[1] != 0.0 || inp[2] != 0.0 else 0.0		# OR
+	#elif ope == OP_NAND: return 0.0 if inp[0] != 0 && inp[1] != 0.0 else 1.0	# NAND
+	#elif ope == OP_NOR: return 0.0 if inp[0] != 0 || inp[1] != 0.0 else 1.0		# NOR
+	#elif ope == OP_GT: return 1.0 if inp[0] > inp[1] else 0.0					# x1 > x2
+	#elif ope == OP_LT: return 1.0 if inp[0] < inp[1] else 0.0					# x1 > x2
+	#elif ope == OP_X1_GT_0: return 1.0 if inp[0] > 0 else 0.0					# x1 > 0
+	#elif ope == OP_X2_GT_0: return 1.0 if inp[1] > 0 else 0.0					# x2 > 0
+	#elif ope == OP_XOR: return 1.0 if inp[0] != inp[1] else 0.0					# XOR
+	#elif ope == OP_NXOR: return 0.0 if inp[0] != inp[1] else 1.0				# NXOR
+	return 0.0
+func teacher_value_ex(inp:Array):
+	var t = teacher_value(inp)
+	if actv_func != g.AF_SIGMOID && t == 0.0: t = -1.0
+	#if !false_0 && t == 0.0: t = -1.0
+	return t
+
 func _ready():
 	neuron = g.Neuron.new(3, g.AF_TANH, norm)		# ３入力単一ニューロン
 	vec_weight_init = neuron.vec_weight.duplicate()
@@ -21,9 +51,34 @@ func _ready():
 	update_view()
 	pass
 func update_view():
+	$ItrLabel.text = "Iteration: %d" % n_iteration
+	$WeightLabel.text = "[b, w1, w2, w3] = [%.3f, %.3f, %.3f, %.3f]" % neuron.vec_weight
 	$GraphRect3i.weights = neuron.vec_weight
 	$GraphRect3i.queue_redraw()
+	forward_and_backward()
 	pass
+func forward_and_backward():
+	grad = [0.0, 0.0, 0.0, 0.0]
+	var sumLoss = 0.0
+	var n_data = 0		# ミニバッチデータ数カウンタ
+	for i in range(boolean_pos.size()):
+		n_data += 1
+		var t = teacher_value_ex(boolean_pos[i])	# 教師値
+		var inp = boolean_pos[i] if false_0 else boolean_pos_tanh[i]
+		neuron.forward(inp)
+		var y = neuron.y
+		if actv_func == g.AF_RELU:
+			y = 1.0 if y > 0.0 else -1.0
+		var d = y - t
+		sumLoss += d * d / 2.0
+		#
+		#print(inp, " ", y, " ", t)
+		neuron.backward(inp, d)
+		for k in range(grad.size()):
+			grad[k] += neuron.upgrad[k]
+	var loss = sumLoss / n_data
+	$LossLabel.text = "Loss = %.3f" % loss
+	$GradLabel.text = "∂L/∂[b, w1, w2, w3] = [%.3f, %.3f, %.3f, %.3f]" % grad
 
 
 # Called every frame. 'delta' is the elapsed time since the previous frame.

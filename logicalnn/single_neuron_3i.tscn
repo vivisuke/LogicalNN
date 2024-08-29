@@ -33,12 +33,91 @@ text = "３入力単一ニューロン"
 horizontal_alignment = 1
 vertical_alignment = 1
 
+[node name="ItrLabel" type="Label" parent="."]
+offset_left = 20.0
+offset_top = 55.0
+offset_right = 105.0
+offset_bottom = 78.0
+theme_override_colors/font_color = Color(0, 0, 0, 1)
+text = "iteration: 0"
+
+[node name="AfLabel" type="Label" parent="."]
+offset_left = 200.0
+offset_top = 55.0
+offset_right = 480.0
+offset_bottom = 78.0
+theme_override_colors/font_color = Color(0, 0, 0, 1)
+text = "actv-func: tanh(), -1 for false"
+horizontal_alignment = 2
+
+[node name="OpeButton" type="OptionButton" parent="."]
+offset_left = 160.0
+offset_top = 80.0
+offset_right = 240.0
+offset_bottom = 111.0
+theme_override_colors/font_color = Color(1, 1, 1, 1)
+selected = 0
+item_count = 10
+popup/item_0/text = "AND"
+popup/item_1/text = "OR"
+popup/item_1/id = 1
+popup/item_2/text = "NAND"
+popup/item_2/id = 2
+popup/item_3/text = "NOR"
+popup/item_3/id = 3
+popup/item_4/text = "X1>X2"
+popup/item_4/id = 4
+popup/item_5/text = "X1<X2"
+popup/item_5/id = 5
+popup/item_6/text = "X1>0"
+popup/item_6/id = 6
+popup/item_7/text = "X2>0"
+popup/item_7/id = 7
+popup/item_8/text = "XOR"
+popup/item_8/id = 8
+popup/item_9/text = "NXOR"
+popup/item_9/id = 9
+
+[node name="Label" type="Label" parent="OpeButton"]
+layout_mode = 0
+offset_left = -132.0
+offset_right = -6.0
+offset_bottom = 23.0
+theme_override_colors/font_color = Color(0, 0, 0, 1)
+text = "teacher func op:"
+horizontal_alignment = 2
+
 [node name="GraphRect3i" type="ColorRect" parent="."]
 offset_left = 20.0
 offset_top = 160.0
 offset_right = 480.0
 offset_bottom = 620.0
 script = ExtResource("2_u8q7f")
+
+[node name="WeightLabel" type="Label" parent="."]
+offset_left = 20.0
+offset_top = 630.0
+offset_right = 175.0
+offset_bottom = 653.0
+theme_override_colors/font_color = Color(0, 0, 0, 1)
+text = "[b, w1, w2, w3] = [0, 0, 0, 0]"
+
+[node name="LossLabel" type="Label" parent="."]
+offset_left = 316.0
+offset_top = 630.0
+offset_right = 480.0
+offset_bottom = 653.0
+theme_override_colors/font_color = Color(0, 0, 0, 1)
+text = "Loss = 0"
+horizontal_alignment = 2
+
+[node name="GradLabel" type="Label" parent="."]
+offset_left = 20.0
+offset_top = 660.0
+offset_right = 280.0
+offset_bottom = 683.0
+theme_override_colors/font_color = Color(0, 0, 0, 1)
+text = "∂L/∂[b, w1, w2, w3] = [%.3f, %.3f, %.3f, %.3f]"
 
 [node name="HBC" type="HBoxContainer" parent="."]
 offset_top = 820.0
