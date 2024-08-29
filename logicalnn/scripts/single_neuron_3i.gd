@@ -20,7 +20,7 @@ var n_iteration = 0			# 学習回数
 var ope = OP_AND
 var actv_func = g.AF_TANH
 var false_0 = false			# false for false: -1.0
-var ALPHA = 0.1				# 学習率
+var ALPHA = 0.01				# 学習率
 var norm = 0.1				# 重み初期化時標準偏差
 var neuron
 var grad
@@ -80,9 +80,15 @@ func forward_and_backward():
 	$LossLabel.text = "Loss = %.3f" % loss
 	$GradLabel.text = "∂L/∂[b, w1, w2, w3] = [%.3f, %.3f, %.3f, %.3f]" % grad
 
+func do_train():
+	n_iteration += 1
+	for i in range(neuron.vec_weight.size()):
+		neuron.vec_weight[i] -= grad[i] * ALPHA
+	update_view()
 
-# Called every frame. 'delta' is the elapsed time since the previous frame.
 func _process(delta):
+	if $HBC/TrainButton.button_pressed:
+		do_train()
 	pass
 
 
@@ -91,4 +97,8 @@ func _on_reset_button_pressed():
 	neuron.init_weight(norm)
 	vec_weight_init = neuron.vec_weight.duplicate()
 	update_view()
+	pass # Replace with function body.
+
+
+func _on_train_button_pressed():
 	pass # Replace with function body.

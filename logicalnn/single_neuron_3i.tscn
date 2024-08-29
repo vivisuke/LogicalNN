@@ -169,3 +169,4 @@ text = "train"
 horizontal_alignment = 1
 
 [connection signal="pressed" from="HBC/ResetButton" to="." method="_on_reset_button_pressed"]
+[connection signal="pressed" from="HBC/TrainButton" to="." method="_on_train_button_pressed"]

@@ -1,11 +1,15 @@
 extends ColorRect
 
+var g = Global
+
 var SZ = self.size
 var SCREEN_WD = SZ.x
 var SCREEN_HT = SZ.y
 const SPACE_TOP = 30.0
 const SPACE_BOTTOM = 30.0
 const SPACE_LEFT = 40.0
+const TRUE_COL = Color.RED
+const FALSE_COL = Color.BLUE
 var GRAPH_HT = SCREEN_HT - (SPACE_TOP + SPACE_BOTTOM)
 var GRAPH_WD = GRAPH_HT
 const SCALE_WD = 6				# 目盛り幅
@@ -23,13 +27,12 @@ const PLANE_DOT_RADIUS = 2.0
 var angle_3d = PI/6.0		# 30°
 #var angle_3d = PI/4.0		# 45°
 var angle30 = PI / 6.0
-var scale_3d2d = 50.0
+var scale_3d2d = 75.0
 var x1_label
 var x2_label
 var x3_label
+var ope = g.OP_AND
 var weights = [-1.0, 0.5, 0.5, 1.0]			# [b, w1, w2, w3] 重みベクター
-
-var g = Global
 
 func trans_3d_2d(x1:float, x2:float, x3:float) -> Vector2:
 	if true:
@@ -80,6 +83,30 @@ func _process(delta):
 	queue_redraw()
 	pass
 
+func plot_boolean_sub(x1, x2, x3):
+	var b = 0
+	if ope == g.OP_AND: b = 1.0 if x1 > 0 && x2 > 0.0 && x3 > 0.0 else 0.0		# AND
+	elif ope == g.OP_OR: b = 1.0 if x1 != 0 || x2 != 0.0 else 0.0		# OR
+	elif ope == g.OP_NAND: b = 0.0 if x1 != 0 && x2 != 0.0 else 1.0		# NAND
+	elif ope == g.OP_NOR: b = 0.0 if x1 != 0 || x2 != 0.0 else 1.0		# NOR
+	elif ope == g.OP_GT: b = 1.0 if x1 > x2 else 0.0					# x1 > x2
+	elif ope == g.OP_LT: b = 1.0 if x1 < x2 else 0.0					# x1 < x2
+	elif ope == g.OP_X1_GT_0: b = 1.0 if x1> 0 else 0.0					# x1 > 0
+	elif ope == g.OP_X2_GT_0: b = 1.0 if x2 > 0 else 0.0					# x2 > 0
+	elif ope == g.OP_XOR: b = 1.0 if x1 != x2 else 0.0					# XOR
+	elif ope == g.OP_NXOR: b = 0.0 if x1 != x2 else 1.0					# NXOR
+	var pos = trans_3d_2d(x1, x2, x3);
+	draw_circle(pos, DOT_RADIUS, TRUE_COL if b > 0 else FALSE_COL)
+	draw_arc(pos, DOT_RADIUS, 0.0, 2*PI, 128, Color.BLACK, 0.5, true)
+func plot_boolean():
+	plot_boolean_sub(-1, -1, -1)
+	plot_boolean_sub( 1, -1, -1)
+	plot_boolean_sub(-1,  1, -1)
+	plot_boolean_sub( 1,  1, -1)
+	plot_boolean_sub(-1, -1,  1)
+	plot_boolean_sub( 1, -1,  1)
+	plot_boolean_sub(-1,  1,  1)
+	plot_boolean_sub( 1,  1,  1)
 func _draw():
 	#print("draw()")
 	# 背景＋影 描画
@@ -100,16 +127,16 @@ func _draw():
 	#draw_circle(trans_3d_2d(0, 0, 2), DOT_RADIUS, Color.BLACK)
 	#
 	draw_div_plane()		# 分割面描画
-	if true:
-		# 4x4x4 立方体頂点
-		draw_circle(trans_3d_2d( 2,  2,  2), DOT_RADIUS, Color.BLACK)
-		draw_circle(trans_3d_2d(-2,  2,  2), DOT_RADIUS, Color.BLACK)
-		draw_circle(trans_3d_2d( 2, -2,  2), DOT_RADIUS, Color.BLACK)
-		draw_circle(trans_3d_2d(-2, -2,  2), DOT_RADIUS, Color.BLACK)
-		draw_circle(trans_3d_2d( 2,  2, -2), DOT_RADIUS, Color.BLACK)
-		draw_circle(trans_3d_2d(-2,  2, -2), DOT_RADIUS, Color.BLACK)
-		draw_circle(trans_3d_2d( 2, -2, -2), DOT_RADIUS, Color.BLACK)
-		draw_circle(trans_3d_2d(-2, -2, -2), DOT_RADIUS, Color.BLACK)
+	#if true:
+	#	# 4x4x4 立方体頂点
+	#	draw_circle(trans_3d_2d( 2,  2,  2), DOT_RADIUS, Color.BLACK)
+	#	draw_circle(trans_3d_2d(-2,  2,  2), DOT_RADIUS, Color.BLACK)
+	#	draw_circle(trans_3d_2d( 2, -2,  2), DOT_RADIUS, Color.BLACK)
+	#	draw_circle(trans_3d_2d(-2, -2,  2), DOT_RADIUS, Color.BLACK)
+	#	draw_circle(trans_3d_2d( 2,  2, -2), DOT_RADIUS, Color.BLACK)
+	#	draw_circle(trans_3d_2d(-2,  2, -2), DOT_RADIUS, Color.BLACK)
+	#	draw_circle(trans_3d_2d( 2, -2, -2), DOT_RADIUS, Color.BLACK)
+	#	draw_circle(trans_3d_2d(-2, -2, -2), DOT_RADIUS, Color.BLACK)
 	if true:
 		# 4x4x4 立方体エッジ
 		draw_dashed_line(trans_3d_2d( 2,  2,  2), trans_3d_2d( -2,  2,  2), Color.BLACK, 2.0)
@@ -127,6 +154,8 @@ func _draw():
 	# x1, x2 ラベル
 		x1_label.position = trans_3d_2d(4, 0, 0)
 		x2_label.position = trans_3d_2d(0, 4, 0)
+	# 教師値頂点ドット表示
+	plot_boolean()
 
 func draw_div_plane():
 	#var x3 = 2.0

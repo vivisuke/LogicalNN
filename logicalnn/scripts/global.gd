@@ -4,6 +4,13 @@ enum {
 	AF_SIGMOID = 0, AF_TANH, AF_RELU, AF_LEAKY_RELU,	# 活性化関数種別
 	WI_1 = 0, WI_001, WI_XAVIER, WI_HE,					# 重み標準偏差・初期化方法
 }
+enum {
+	OP_AND = 0, OP_OR, OP_NAND, OP_NOR,
+	OP_GT,		# x1 > x2
+	OP_LT,		# x1 < x2
+	OP_X1_GT_0, OP_X2_GT_0, 	# x1 > 0, X2 > 0
+	OP_XOR, OP_NXOR,
+}
 # ニューロンクラス、N入力１出力
 # 活性化関数：シグモイド・tanh・ReLU etc ?
 class Neuron:

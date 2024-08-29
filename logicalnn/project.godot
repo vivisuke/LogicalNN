@@ -11,7 +11,7 @@ config_version=5
 [application]
 
 config/name="LogicalNN"
-run/main_scene="res://single_neuron.tscn"
+run/main_scene="res://single_neuron_3i.tscn"
 config/features=PackedStringArray("4.3", "Mobile")
 config/icon="res://icon.svg"
 
