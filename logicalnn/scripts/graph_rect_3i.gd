@@ -29,6 +29,8 @@ var x2_label
 var x3_label
 var weights = [-1.0, 0.5, 0.5, 1.0]			# [b, w1, w2, w3] 重みベクター
 
+var g = Global
+
 func trans_3d_2d(x1:float, x2:float, x3:float) -> Vector2:
 	if true:
 		var x = -cos(angle_3d) * x1
