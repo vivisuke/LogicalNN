@@ -27,7 +27,7 @@ var scale_3d2d = 50.0
 var x1_label
 var x2_label
 var x3_label
-var vec_weight = [-1.0, 1.0, 1.0, 1.0]			# [b, w1, w2, w3] 重みベクター
+var weights = [-1.0, 0.5, 0.5, 1.0]			# [b, w1, w2, w3] 重みベクター
 
 func trans_3d_2d(x1:float, x2:float, x3:float) -> Vector2:
 	if true:
@@ -132,7 +132,8 @@ func draw_div_plane():
 		var x3 = x30 / 10.0
 		for x10 in range(-20, 20, 2):
 			var x1 = x10 / 10.0
-			var x2 = 1 - x1 - x3;
+			var x2 = (weights[0] - x1*weights[1] - x3*weights[3]) / weights[2];
 			#print(x1, x2, x3)
-			draw_circle(trans_3d_2d( x1,  x2,  x3), PLANE_DOT_RADIUS, Color.BLUE)
+			if x1 >= -2.0 && x1 <= 2.0 && x2 >= -2.0 && x2 <= 2.0 && x3 >= -2.0 && x3 <= 2.0:
+				draw_circle(trans_3d_2d( x1,  x2,  x3), PLANE_DOT_RADIUS, Color.BLUE)
 			
