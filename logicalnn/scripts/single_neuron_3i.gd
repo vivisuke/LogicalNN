@@ -29,3 +29,11 @@ func update_view():
 # Called every frame. 'delta' is the elapsed time since the previous frame.
 func _process(delta):
 	pass
+
+
+func _on_reset_button_pressed():
+	n_iteration = 0
+	neuron.init_weight(norm)
+	vec_weight_init = neuron.vec_weight.duplicate()
+	update_view()
+	pass # Replace with function body.
