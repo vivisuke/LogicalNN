@@ -84,17 +84,18 @@ func _process(delta):
 	pass
 
 func plot_boolean_sub(x1, x2, x3):
-	var b = 0
-	if ope == g.OP_AND: b = 1.0 if x1 > 0 && x2 > 0.0 && x3 > 0.0 else 0.0		# AND
-	elif ope == g.OP_OR: b = 1.0 if x1 != 0 || x2 != 0.0 else 0.0		# OR
-	elif ope == g.OP_NAND: b = 0.0 if x1 != 0 && x2 != 0.0 else 1.0		# NAND
-	elif ope == g.OP_NOR: b = 0.0 if x1 != 0 || x2 != 0.0 else 1.0		# NOR
-	elif ope == g.OP_GT: b = 1.0 if x1 > x2 else 0.0					# x1 > x2
-	elif ope == g.OP_LT: b = 1.0 if x1 < x2 else 0.0					# x1 < x2
-	elif ope == g.OP_X1_GT_0: b = 1.0 if x1> 0 else 0.0					# x1 > 0
-	elif ope == g.OP_X2_GT_0: b = 1.0 if x2 > 0 else 0.0					# x2 > 0
-	elif ope == g.OP_XOR: b = 1.0 if x1 != x2 else 0.0					# XOR
-	elif ope == g.OP_NXOR: b = 0.0 if x1 != x2 else 1.0					# NXOR
+	var b = g.teacher_value_3i(ope, [x1, x2, x3])
+	#var b = 0
+	#if ope == g.OP_AND: b = 1.0 if x1 > 0 && x2 > 0.0 && x3 > 0.0 else 0.0		# AND
+	#elif ope == g.OP_OR: b = 1.0 if x1 != 0 || x2 != 0.0 else 0.0		# OR
+	#elif ope == g.OP_NAND: b = 0.0 if x1 != 0 && x2 != 0.0 else 1.0		# NAND
+	#elif ope == g.OP_NOR: b = 0.0 if x1 != 0 || x2 != 0.0 else 1.0		# NOR
+	#elif ope == g.OP_GT: b = 1.0 if x1 > x2 else 0.0					# x1 > x2
+	#elif ope == g.OP_LT: b = 1.0 if x1 < x2 else 0.0					# x1 < x2
+	#elif ope == g.OP_X1_GT_0: b = 1.0 if x1> 0 else 0.0					# x1 > 0
+	#elif ope == g.OP_X2_GT_0: b = 1.0 if x2 > 0 else 0.0					# x2 > 0
+	#elif ope == g.OP_XOR: b = 1.0 if x1 != x2 else 0.0					# XOR
+	#elif ope == g.OP_NXOR: b = 0.0 if x1 != x2 else 1.0					# NXOR
 	var pos = trans_3d_2d(x1, x2, x3);
 	draw_circle(pos, DOT_RADIUS*1.5, TRUE_COL if b > 0 else FALSE_COL)
 	draw_arc(pos, DOT_RADIUS*1.5, 0.0, 2*PI, 128, Color.BLACK, 0.5, true)
