@@ -24,6 +24,7 @@ var ORG_X = SPACE_LEFT + GRAPH_WD/2
 var ORG_Y = SPACE_TOP + GRAPH_HT/2
 const DOT_RADIUS = 4.0
 const PLANE_DOT_RADIUS = 2.0
+#var angle_3d = 0.0			# 0°
 var angle_3d = PI/6.0		# 30°
 #var angle_3d = PI/4.0		# 45°
 var angle30 = PI / 6.0
@@ -152,8 +153,7 @@ func _draw():
 	# 教師値頂点ドット表示
 	plot_boolean()
 
-func draw_div_plane():
-	#var x3 = 2.0
+func draw_div_plane():# 分割面描画
 	for x30 in range(-20, 20, 2):
 		var x3 = x30 / 10.0
 		for x20 in range(-20, 20, 2):

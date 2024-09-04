@@ -18,6 +18,8 @@ const boolean_pos_tanh = [[-1, -1, -1], [1, -1, -1], [-1, 1, -1], [1, 1, -1],
 							[-1, -1, 1], [1, -1, 1], [-1, 1, 1], [1, 1, 1]]
 
 var vec_weight_init			# 重み初期値
+var train_pressed = false
+var dur						# Train ボタン押下からの経過時間、単位：秒
 var n_iteration = 0			# 学習回数
 var ope = OP_AND
 var actv_func = g.AF_TANH
@@ -79,7 +81,16 @@ func do_train():
 
 func _process(delta):
 	if $HBC/TrainButton.button_pressed:
+		if !train_pressed:
+			train_pressed = true
+			dur = 0.0
+		else:
+			dur += delta
+			if( dur < 0.5 ): return
 		do_train()
+	else:
+		train_pressed = false
+		dur = 0.0
 	pass
 
 
