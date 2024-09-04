@@ -13,7 +13,7 @@ enum {
 }
 
 #const boolean_pos = [[0, 0, 0], [1, 0, 0], [0, 1, 0], [1, 1, 0],
-						[0, 0, 1], [1, 0, 1], [0, 1, 1], [1, 1, 1]]
+#						[0, 0, 1], [1, 0, 1], [0, 1, 1], [1, 1, 1]]
 const boolean_pos_tanh = [[-1, -1, -1], [1, -1, -1], [-1, 1, -1], [1, 1, -1],
 							[-1, -1, 1], [1, -1, 1], [-1, 1, 1], [1, 1, 1]]
 
@@ -110,5 +110,13 @@ func _on_train_button_pressed():
 func _on_rewind_button_pressed():
 	n_iteration = 0
 	neuron.vec_weight = vec_weight_init.duplicate()
+	update_view()
+	pass # Replace with function body.
+
+
+func _on_ope_button_item_selected(index):
+	ope = index
+	$GraphRect3i.ope = ope
+	$GraphRect3i.queue_redraw()
 	update_view()
 	pass # Replace with function body.

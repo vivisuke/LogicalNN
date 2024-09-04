@@ -35,9 +35,11 @@ class Neuron:
 		init_weight(deviation)		# 指定標準偏差で乱数生成
 	func init_weight(deviation:float):
 		if false:
-			vec_weight[0] = 0.5
-			vec_weight[1] = -0.5
-			vec_weight[2] = 0.5
+			for i in range(n_input+1):
+				vec_weight[i] = 1.0
+			vec_weight[0] = -3.0
+			#vec_weight[1] = -0.5
+			#vec_weight[2] = 0.5
 		elif true:
 			# xavier 初期化
 			for i in range(n_input+1):

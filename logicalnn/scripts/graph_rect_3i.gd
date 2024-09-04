@@ -70,7 +70,7 @@ func _ready():
 	# "x1", "x2", "x3" 表示
 	x1_label = add_axis_label(Vector2(LT+BTM_OFST, ORG_Y+GRAPH_HT/4), "x1")
 	x2_label = add_axis_label(Vector2(RT-BTM_OFST*2, ORG_Y+GRAPH_HT/4), "x2")
-	x3_label = add_axis_label(Vector2(ORG_X+4, TOP), "x3")
+	x3_label = add_axis_label(Vector2(ORG_X+3, TOP), "x3")
 	pass # Replace with function body.
 
 
@@ -118,9 +118,9 @@ func _draw():
 	style_box.shadow_color = Color.GRAY
 	draw_style_box(style_box, Rect2(Vector2(0, 0), self.size))      # style_box に設定した矩形を描画
 	# 座標軸描画
-	draw_line(trans_3d_2d(4, 0, 0), trans_3d_2d(-4, 0, 0), Color.GRAY)		# x1 軸
-	draw_line(trans_3d_2d(0, 4, 0), trans_3d_2d(0, -4, 0), Color.GRAY)		# x2 軸
-	draw_line(trans_3d_2d(0, 0, 4), trans_3d_2d(0, 0, -4), Color.GRAY)		# x3 軸
+	draw_line(trans_3d_2d(3, 0, 0), trans_3d_2d(-3, 0, 0), Color.GRAY)		# x1 軸
+	draw_line(trans_3d_2d(0, 3, 0), trans_3d_2d(0, -3, 0), Color.GRAY)		# x2 軸
+	draw_line(trans_3d_2d(0, 0, 3), trans_3d_2d(0, 0, -3), Color.GRAY)		# x3 軸
 	# 座標軸上の整数点に黒丸描画
 	for x in range(-2, 3):
 		draw_circle(trans_3d_2d(x, 0, 0), DOT_RADIUS/2, Color.BLACK)
@@ -158,8 +158,8 @@ func _draw():
 		draw_dashed_line(trans_3d_2d(-2, -2,  2), trans_3d_2d( -2, -2, -2), Color.BLACK, 2.0)
 		draw_dashed_line(trans_3d_2d( 2, -2,  2), trans_3d_2d(  2, -2, -2), Color.BLACK, 2.0)
 	# x1, x2 ラベル
-		x1_label.position = trans_3d_2d(4, 0, 0)
-		x2_label.position = trans_3d_2d(0, 4, 0)
+		x1_label.position = trans_3d_2d(2.5, 0, 0)
+		x2_label.position = trans_3d_2d(0, 2.5, 0)
 	# 教師値頂点ドット表示
 	plot_boolean()
 
@@ -167,10 +167,10 @@ func draw_div_plane():
 	#var x3 = 2.0
 	for x30 in range(-20, 20, 2):
 		var x3 = x30 / 10.0
-		for x10 in range(-20, 20, 2):
-			var x1 = x10 / 10.0
-			var x2 = (weights[0] - x1*weights[1] - x3*weights[3]) / weights[2];
+		for x20 in range(-20, 20, 2):
+			var x2 = x20 / 10.0
+			var x1 = -(weights[0] + x2*weights[2] + x3*weights[3]) / weights[1];
 			#print(x1, x2, x3)
 			if x1 >= -2.0 && x1 <= 2.0 && x2 >= -2.0 && x2 <= 2.0 && x3 >= -2.0 && x3 <= 2.0:
-				draw_circle(trans_3d_2d( x1,  x2,  x3), PLANE_DOT_RADIUS, Color.BLUE)
+				draw_circle(trans_3d_2d( x1,  x2,  x3), PLANE_DOT_RADIUS, Color.DARK_GREEN)
 			
