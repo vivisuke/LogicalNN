@@ -28,18 +28,6 @@ var neuron
 var grad
 
 
-#func teacher_value(inp:Array):
-#	if ope == OP_AND: return 1.0 if inp[0] > 0 && inp[1] > 0.0 && inp[2] > 0.0 else 0.0		# AND
-#	elif ope == OP_OR: return 1.0 if inp[0] != 0 || inp[1] != 0.0 || inp[2] != 0.0 else 0.0		# OR
-#	#elif ope == OP_NAND: return 0.0 if inp[0] != 0 && inp[1] != 0.0 else 1.0	# NAND
-#	#elif ope == OP_NOR: return 0.0 if inp[0] != 0 || inp[1] != 0.0 else 1.0		# NOR
-#	#elif ope == OP_GT: return 1.0 if inp[0] > inp[1] else 0.0					# x1 > x2
-#	#elif ope == OP_LT: return 1.0 if inp[0] < inp[1] else 0.0					# x1 > x2
-#	#elif ope == OP_X1_GT_0: return 1.0 if inp[0] > 0 else 0.0					# x1 > 0
-#	#elif ope == OP_X2_GT_0: return 1.0 if inp[1] > 0 else 0.0					# x2 > 0
-#	#elif ope == OP_XOR: return 1.0 if inp[0] != inp[1] else 0.0					# XOR
-#	#elif ope == OP_NXOR: return 0.0 if inp[0] != inp[1] else 1.0				# NXOR
-#	return 0.0
 func teacher_value_ex(inp:Array):
 	var t = g.teacher_value_3i(ope, inp)
 	#if actv_func != g.AF_SIGMOID && t == 0.0: t = -1.0
