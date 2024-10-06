@@ -32,6 +32,7 @@ var scale_3d2d = 75.0
 var x1_label
 var x2_label
 var x3_label
+var div_cross = [0, 0, 0]			# 分割面法線方向ベクター
 var ope = g.OP_AND
 var weights = [-1.0, 0.5, 0.5, 1.0]			# [b, w1, w2, w3] 重みベクター
 
@@ -154,6 +155,10 @@ func _draw():
 	plot_boolean()
 
 func draw_div_plane():# 分割面描画
+	var angle = [cos(angle_3d), sin(angle_3d), 0.0]
+	var dot = div_cross[0]*angle[0] + div_cross[1]*angle[1]
+	#print("dot = %.3f"%dot)
+	var col = Color.DARK_GREEN if dot >= 0.0 else Color.PINK
 	for x30 in range(-20, 20, 2):
 		var x3 = x30 / 10.0
 		for x20 in range(-20, 20, 2):
@@ -161,5 +166,5 @@ func draw_div_plane():# 分割面描画
 			var x1 = -(weights[0] + x2*weights[2] + x3*weights[3]) / weights[1];
 			#print(x1, x2, x3)
 			if x1 >= -2.0 && x1 <= 2.0 && x2 >= -2.0 && x2 <= 2.0 && x3 >= -2.0 && x3 <= 2.0:
-				draw_circle(trans_3d_2d( x1,  x2,  x3), PLANE_DOT_RADIUS, Color.DARK_GREEN)
+				draw_circle(trans_3d_2d( x1,  x2,  x3), PLANE_DOT_RADIUS, col)
 			

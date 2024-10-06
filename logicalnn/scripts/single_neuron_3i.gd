@@ -28,6 +28,8 @@ var ALPHA = 0.01				# 学習率
 var norm = 0.1				# 重み初期化時標準偏差
 var neuron
 var grad
+var x_intercept = []		# x1, x2, x3 切片
+var div_cross = []			# 分割面法線方向ベクター
 
 
 func teacher_value_ex(inp:Array):
@@ -35,6 +37,17 @@ func teacher_value_ex(inp:Array):
 	#if actv_func != g.AF_SIGMOID && t == 0.0: t = -1.0
 	#if !false_0 && t == 0.0: t = -1.0
 	return t
+func calc_div_cross():
+	x_intercept.resize(neuron.vec_weight.size()-1)
+	for i in range(x_intercept.size()):
+		x_intercept[i] = -neuron.vec_weight[0]/neuron.vec_weight[i+1]
+	print("(%.3f, 0, 0), (0, %.3f, 0), (0, 0, %.3f)"%x_intercept)
+	var v1 = [-x_intercept[0], x_intercept[1], 0.0]	# x1 to x2
+	var v2 = [-x_intercept[0], 0.0, x_intercept[2]]	# x1 to x3
+	# cross = [y1*z2 - z1*y2, z1*x2 - x1*z2, x1*y2 - y1*x2]
+	div_cross = [v1[1]*v2[2]- v1[2]*v2[1], v1[2]*v2[0] - v1[0]*v2[2], v1[0]*v2[1]-v1[1]*v2[0]]
+	print("div_cross = (%.3f, %.3f, %.3f)"%div_cross)
+	$GraphRect3i.div_cross = div_cross
 
 func _ready():
 	neuron = g.Neuron.new(3, g.AF_TANH, norm)		# ３入力単一ニューロン
@@ -77,6 +90,7 @@ func do_train():
 	n_iteration += 1
 	for i in range(neuron.vec_weight.size()):
 		neuron.vec_weight[i] -= grad[i] * ALPHA
+	calc_div_cross()
 	update_view()
 
 func _process(delta):
