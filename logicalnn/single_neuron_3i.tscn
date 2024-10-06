@@ -120,9 +120,9 @@ theme_override_colors/font_color = Color(0, 0, 0, 1)
 text = "∂L/∂[b, w1, w2, w3] = [%.3f, %.3f, %.3f, %.3f]"
 
 [node name="HBC" type="HBoxContainer" parent="."]
-offset_top = 820.0
+offset_top = 830.0
 offset_right = 500.0
-offset_bottom = 870.0
+offset_bottom = 880.0
 theme_override_constants/separation = 150
 alignment = 1
 
