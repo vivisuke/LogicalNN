@@ -159,11 +159,13 @@ func plot_points():
 		#var col = Color.BLACK if vec_input[i][2] else Color.DARK_GRAY
 		#draw_circle(posToScreenPos(Vector2(x, y)), 4.0, col)
 		if vec_tv.is_empty():
-			dot_plot(Vector2(x, y), vec_input[i][2])
+			dot_plot(Vector2(x, y), vec_input[i][2] > 0.0)
 		else:
 			dot_plot(Vector2(x, y), float(vec_tv[i]) > 0.0)
 func _draw():
 	#print("draw()")
+	if( !vec_input.is_empty() ):
+		print("vec_input = ", vec_input)
 	# 背景＋影 描画
 	var style_box = StyleBoxFlat.new()      # 影、ボーダなどを描画するための矩形スタイルオブジェクト
 	style_box.bg_color = Color.WHITE   		# 矩形背景色

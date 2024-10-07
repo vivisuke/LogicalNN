@@ -9,7 +9,7 @@ var vec_weight_init11		# 重み初期値
 var vec_weight_init12		# 重み初期値
 var vec_weight_init21		# 重み初期値
 var n_iteration = 0			# 学習回数
-var ope = OP_AND
+var ope = g.OP_AND
 var actv_func = g.AF_TANH
 var false_0 = false			# false for false: -1.0
 var ALPHA = 0.1				# 学習率
@@ -45,7 +45,7 @@ func forward_and_backward():
 	var n_data = 0		# ミニバッチデータ数カウンタ
 	for i in range(boolean_pos_tanh.size()):
 		n_data += 1
-		#var t = teacher_value_ex(boolean_pos_tanh[i])	# 教師値
+		var t = g.teacher_value(ope, boolean_pos_tanh[i])	# 教師値
 		var inp = boolean_pos_tanh[i]
 		##var inp = boolean_pos[i] if false_0 else boolean_pos_tanh[i]
 		neuron11.forward(inp)
@@ -53,7 +53,7 @@ func forward_and_backward():
 		var y1 = neuron11.y
 		var y2 = neuron12.y
 		print("%f, %f"%[y1, y2])
-		vec_input.push_back([y1, y2, 1])
+		vec_input.push_back([y1, y2, t])
 		#if actv_func == g.AF_RELU:
 		#	y = 1.0 if y > 0.0 else -1.0
 		#var d = y - t
