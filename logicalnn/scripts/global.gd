@@ -48,7 +48,7 @@ class Neuron:
 			vec_weight[0] = -3.0
 			#vec_weight[1] = -0.5
 			#vec_weight[2] = 0.5
-		elif true:
+		elif false:
 			# xavier 初期化
 			for i in range(n_input+1):
 				vec_weight[i] = randfn(0.0, 1.0/sqrt(n_input+1))
