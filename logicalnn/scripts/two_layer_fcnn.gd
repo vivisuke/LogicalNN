@@ -32,7 +32,9 @@ func _ready():
 func update_view():
 	$ItrLabel.text = "Iteration: %d" % n_iteration
 	forward_and_backward()
-	#$WeightLabel.text = "[b, w1, w2] = [%.3f, %.3f, %.3f]" % neuron.vec_weight
+	$Weight11Label.text = "[b1, w11, w12] =\n[%.2f, %.2f, %.2f]" % neuron11.vec_weight
+	$Weight12Label.text = "[b2, w21, w22] =\n[%.2f, %.2f, %.2f]" % neuron12.vec_weight
+	$Weight21Label.text = "[b, w1, w2] =\n[%.2f, %.2f, %.2f]" % neuron21.vec_weight
 	$GraphRect1.vv_weight = [neuron11.vec_weight, neuron12.vec_weight]
 	$GraphRect2.vv_weight = [neuron21.vec_weight]
 	$GraphRect1.queue_redraw()
